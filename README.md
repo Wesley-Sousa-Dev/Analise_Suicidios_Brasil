@@ -18,4 +18,4 @@ Partes do trabalho:
 - Manipulação de banco de dados (gráficos e explicação do motivo por ser ele)
 - Análise e visualização de dados (dos dados armazenados)
 
-Adicionando Algo
+Alguma coisa
