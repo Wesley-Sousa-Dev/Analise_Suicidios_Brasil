@@ -5,7 +5,7 @@ class ArquivoInspecao:
         if self.eUmCSV:
             self.dataframe = pd.read_csv(caminho, sep=";")
             self.cabecalho = self.dataframe.head()
-            self.verifica = True if not self.dataframe.isna().values.any() and not self.cabecalho.empty else False
+            self.verifica = not self.dataframe.isna().values.any() and not self.cabecalho.empty
         else:
             raise Exception("O arquivo não é um CSV")
         
