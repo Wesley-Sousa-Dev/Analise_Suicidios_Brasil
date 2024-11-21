@@ -7,7 +7,7 @@ class ArquivoInspecao:
             self.cabecalho = self.dataframe.head()
             self.verifica = not self.dataframe.isna().values.any() and not self.cabecalho.empty
         else:
-            raise Exception("O arquivo não é um CSV")
+            raise Exception(e)
         
     def ArquivoValido(self, caminho):
         with open(caminho, "r") as file:
