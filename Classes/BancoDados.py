@@ -28,38 +28,57 @@ class BancoDados:
         tableGenero = """
                         CREATE TABLE IF NOT EXISTS genero (
                             gen_cod SERIAL PRIMARY KEY,
-                            tipo CHAR(1) NOT NULL CHECK (tipo IN ('M', 'F'))
+                            tipo CHAR(1) NOT NULL CHECK (tipo IN ('M', 'F')),
+                            descricao VARCHAR(10) NOT NULL
                         );
 
-                        CREATE OR REPLACE VIEW genero_view AS
-                        SELECT 
-                            gen_cod, 
-                            tipo, 
-                            CASE 
-                                WHEN tipo = 'M' THEN 'Homem'
-                                WHEN tipo = 'F' THEN 'Mulher'
-                            END AS descricao
-                        FROM genero;
+                        CREATE OR REPLACE FUNCTION set_genero_descricao()
+                        RETURNS TRIGGER AS $$
+                        BEGIN
+                            IF NEW.tipo = 'M' THEN
+                                NEW.descricao := 'Homem';
+                            ELSIF NEW.tipo = 'F' THEN
+                                NEW.descricao := 'Mulher';
+                            END IF;
+                            RETURN NEW;
+                        END;
+                        $$ LANGUAGE plpgsql;
+
+                        CREATE TRIGGER genero_descricao_trigger
+                        BEFORE INSERT OR UPDATE ON genero
+                        FOR EACH ROW
+                        EXECUTE FUNCTION set_genero_descricao();
                       """
 
         tableRegiao = """
                         CREATE TABLE IF NOT EXISTS regiao (
                             reg_cod SERIAL PRIMARY KEY,
-                            nome VARCHAR(3) NOT NULL CHECK (nome IN ('CO', 'SE', 'N', 'S', 'NE'))
+                            nome VARCHAR(3) NOT NULL CHECK (nome IN ('CO', 'SE', 'N', 'S', 'NE')),
+                            descricao VARCHAR(15) NOT NULL
                         );
 
-                        CREATE OR REPLACE VIEW regiao_view AS
-                        SELECT 
-                            reg_cod, 
-                            nome, 
-                            CASE
-                                WHEN nome = 'CO' THEN 'Centro-Oeste'
-                                WHEN nome = 'N' THEN 'Norte'
-                                WHEN nome = 'NE' THEN 'Nordeste'
-                                WHEN nome = 'S' THEN 'Sul'
-                                WHEN nome = 'SE' THEN 'Sudeste'
-                            END AS descricao
-                        FROM regiao;
+                        CREATE OR REPLACE FUNCTION set_regiao_descricao()
+                        RETURNS TRIGGER AS $$
+                        BEGIN
+                            IF NEW.nome = 'CO' THEN
+                                NEW.descricao := 'Centro-Oeste';
+                            ELSIF NEW.nome = 'N' THEN
+                                NEW.descricao := 'Norte';
+                            ELSIF NEW.nome = 'NE' THEN
+                                NEW.descricao := 'Nordeste';
+                            ELSIF NEW.nome = 'S' THEN
+                                NEW.descricao := 'Sul';
+                            ELSIF NEW.nome = 'SE' THEN
+                                NEW.descricao := 'Sudeste';
+                            END IF;
+                            RETURN NEW;
+                        END;
+                        $$ LANGUAGE plpgsql;
+
+                        CREATE TRIGGER regiao_descricao_trigger
+                        BEFORE INSERT OR UPDATE ON regiao
+                        FOR EACH ROW
+                        EXECUTE FUNCTION set_regiao_descricao();
                       """
 
         tableRel_GeneroPeriodo = """
