@@ -9,6 +9,10 @@ class Arquivo:
         else:
             raise Exception("O arquivo não é um CSV!")
         
-    def ArquivoValido(self, caminho):
+    def arquivo_valido(self, caminho):
         with open(caminho, "r") as file:
             return caminho.lower().endswith('.csv')
+        
+    def arquivo_modelagem():
+        self.dataframe
+        return
