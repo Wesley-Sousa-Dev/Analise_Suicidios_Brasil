@@ -88,3 +88,9 @@ class BancoDados:
         print("Tabelas criadas com sucesso!")
         cursor.close()
         self.db_connect.close()
+
+
+        def insercao_dados(self, csv):
+            cursor = self.db_connect.cursor()
+            print("Método não feito ainda chefia")
+            cursor.close()
