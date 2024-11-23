@@ -1,5 +1,5 @@
 import pandas as pd
-class ArquivoInspecao:    
+class Arquivo:    
     def __init__(self, caminho):
         self.eUmCSV = self.ArquivoValido(caminho)
         if self.eUmCSV:
