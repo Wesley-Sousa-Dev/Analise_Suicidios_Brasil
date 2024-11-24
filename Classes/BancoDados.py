@@ -1,4 +1,5 @@
 import psycopg2 as psy
+import pandas as pd
 
 class BancoDados:
     def __init__(self, dbname, user, password, host, port):
@@ -23,6 +24,7 @@ class BancoDados:
     def criacao_tabelas(self):
         cursor = self.db_connect.cursor()
 
+        #REALIZANDO CRIAÇÃO DAS TABLES
         tablePeriodo = """
                         CREATE TABLE IF NOT EXISTS periodo (
                             per_cod SERIAL PRIMARY KEY,
@@ -86,6 +88,15 @@ class BancoDados:
                         FOR EACH ROW
                         EXECUTE FUNCTION set_regiao_descricao();
                       """
+        
+        tableArmaFogo = """
+                        CREATE TABLE IF NOT EXISTS arma_fogo (
+                            arm_cod SERIAL,
+                            per_cod SMALLINT NOT NULL REFERENCES periodo(per_cod),
+                            quantidade_total INTEGER NOT NULL,
+                            PRIMARY KEY (arm_cod, per_cod)
+                        );
+                        """
 
         tableRel_GeneroPeriodo = """
                                 CREATE TABLE IF NOT EXISTS gen_periodo (
@@ -109,6 +120,26 @@ class BancoDados:
 
         for table in tableList:
             cursor.execute(table)
+
+
+        #REALIZANDO INSERÇÕES INICIAIS
+        insertGenero = """
+                    INSERT INTO genero (tipo) 
+                    VALUES ('F'), ('M')
+                    ON CONFLICT DO NOTHING;
+                    """
+
+        insertRegiao = """
+                    INSERT INTO regiao (nome) 
+                    VALUES ('CO'), ('N'), ('NE'), ('S'), ('SE')
+                    ON CONFLICT DO NOTHING;
+                    """
+        
+        insertList = [insertGenero, insertRegiao]
+
+        for insert in insertList:
+            cursor.execute(insert)
+
         self.db_connect.commit()
         print("Tabelas criadas com sucesso!")
         cursor.close()
@@ -133,3 +164,36 @@ class BancoDados:
         except Exception as e:
             self.db_connect.rollback()
             return f"Erro ao inserir os dados: {e}"
+
+
+    def buscar_dados(self, chosentable):
+        try:
+            self.db_connect.rollback()
+
+            match chosentable:
+                case 'periodo':
+                    query = "SELECT * FROM periodo ORDER BY ano;"
+                case 'genero':
+                    return
+                case 'regiao':
+                    return
+                case 'arma_fogo':
+                    return 'Num foi criado ainda kkkkk'
+                case 'gen_periodo':
+                    return
+                case 'reg_periodo':
+                    return
+                case _:
+                    return "Table escolhida não existe."
+
+
+            with self.db_connect.cursor() as cursor:
+                cursor.execute(query)
+                resultados = cursor.fetchall()
+                colunas = [desc[0] for desc in cursor.description] 
+        
+            dataframe = pd.DataFrame(resultados, columns=colunas)
+            return dataframe 
+        
+        except Exception as e:
+            print(f"Erro ao buscar dados: {e}")
