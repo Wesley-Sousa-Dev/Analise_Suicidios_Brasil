@@ -1,7 +1,7 @@
 import pandas as pd
 class Arquivo:    
     def __init__(self, caminho):
-        self.eUmCSV = self.ArquivoValido(caminho)
+        self.eUmCSV = self.arquivo_valido(caminho)
         if self.eUmCSV:
             self.dataframe = pd.read_csv(caminho, sep=";")
             self.cabecalho = self.dataframe.head()
@@ -13,6 +13,5 @@ class Arquivo:
         with open(caminho, "r") as file:
             return caminho.lower().endswith('.csv')
         
-    def arquivo_modelagem():
-        self.dataframe
-        return
+    def arquivo_modelagem(self):
+        return self.dataframe
