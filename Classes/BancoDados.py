@@ -175,13 +175,16 @@ class BancoDados:
             dadosHomem = homemDf.merge(colunasPer, on='ano', how='left')
             dadosHomem['gen_cod'] = 2
 
-            print(f"Dados DF mulher pós merge: \n{dadosMulher} \n\nDados DF homem pós merge: \n{dadosHomem}")
+            #print(f"Dados DF mulher pós merge: \n{dadosMulher} \n\nDados DF homem pós merge: \n{dadosHomem}")
 
-            dados = homemDf[['per_cod', 'gen_cod','quantidade']].to_records(index=False).tolist()
+            dados = pd.concat([dadosMulher, dadosHomem])
+            #print(f"\n\nDataframe concatenado: \n{dados}")
+
+            dados = dados[['per_cod', 'gen_cod','quantidade']].to_records(index=False).tolist()
             
             query = """
             INSERT INTO gen_periodo (per_cod, gen_cod, quantidade)
-            VALUES (%s, %s);
+            VALUES (%s, %s, %s);
             """
 
             with self.db_connect.cursor() as cursor:
