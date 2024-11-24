@@ -13,6 +13,12 @@ class BancoDados:
             print("Conexão bem-sucedida!")
         except Exception as e:
             print(f"Erro ao conectar: {e}")
+        
+    def encerrar(self):
+        try:
+            self.db_connect.close()
+        except Exception as e:
+            return f"Erro ao encerrar a conexão: {e}"
 
     def criacao_tabelas(self):
         cursor = self.db_connect.cursor()
@@ -106,4 +112,24 @@ class BancoDados:
         self.db_connect.commit()
         print("Tabelas criadas com sucesso!")
         cursor.close()
-        self.db_connect.close()
+
+    def inserir_total(self, suicidioDf):
+        try:
+            suicidioDf = suicidioDf.rename(columns={'período': 'ano', 'valor': 'quantidade_total'})
+
+            dados = suicidioDf[['ano', 'quantidade_total']].to_records(index=False).tolist()
+            
+            query = """
+            INSERT INTO periodo (ano, quantidade_total)
+            VALUES (%s, %s);
+            """
+
+            with self.db_connect.cursor() as cursor:
+                cursor.executemany(query, dados)
+
+            self.db_connect.commit()
+            return "Dados inseridos com sucesso!"
+        
+        except Exception as e:
+            self.db_connect.rollback()
+            return f"Erro ao inserir os dados: {e}"
