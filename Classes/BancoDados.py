@@ -165,11 +165,17 @@ class BancoDados:
             self.db_connect.rollback()
             return f"Erro ao inserir os dados: {e}"
 
-    def inserir_gen(self, homemDf, colunaPer):
+    def inserir_gen(self, homemDf, mulherDf, colunasGen, colunasPer):
         try:
-            homemDf.rename(columns={'período':'ano', 'valor':'quantidade'}, inplace=True)
-            homemDf.merge(colunaPer, on='ano', how='left')
+            dadosMulher = mulherDf.rename(columns={'período':'ano', 'valor': 'quantidade'}, inplace=True)
+            dadosMulher = mulherDf.merge(colunasPer, on='ano', how='left')
+            dadosMulher['gen_cod'] = 1
+            
+            dadosHomem = homemDf.rename(columns={'período':'ano', 'valor':'quantidade'}, inplace=True)
+            dadosHomem = homemDf.merge(colunasPer, on='ano', how='left')
+            dadosHomem['gen_cod'] = 2
 
+            print(f"Dados DF mulher pós merge: \n{dadosMulher} \n\nDados DF homem pós merge: \n{dadosHomem}")
 
             dados = homemDf[['per_cod', 'gen_cod','quantidade']].to_records(index=False).tolist()
             
