@@ -14,55 +14,6 @@ class BancoDados:
         except Exception as e:
             print(f"Erro ao conectar: {e}")
 
-    def insercao_dados(self, dataframe, chosenTable):
-        cursor = self.db_connect.cursor()
-
-        tables = {
-            'periodo': ['ano', 'quantidade_total'],
-            'genero': ['tipo', 'descricao'],
-            'regiao': ['nome', 'descricao'],
-            'gen_periodo': ['per_cod', 'gen_cod', 'quantidade'],
-            'reg_periodo': ['per_cod', 'reg_cod', 'quantidade']
-        }
-
-        if chosenTable not in tables:
-            print(f"Tabela {chosenTable} não encontrada. Verifique o nome.")
-            return       
-        
-        table_columns = tables[chosenTable]
-
-        placeholders = ', '.join(['%s'] * len(table_columns))
-        columns = ', '.join(table_columns)
-        insert_query = f"INSERT INTO {chosenTable} ({columns}) VALUES ({placeholders})"
-
-        #Homens arma de fogo
-
-        #Mulheres arma de fogo
-
-        #Mulheres e homens suicídio
-
-        #Suicidío região
-
-        try:
-            #Inserindo cada linha do DataFrame
-            for _, row in dataframe.iterrows():
-                values = tuple(row[col] for col in table_columns)
-                cursor.execute(insert_query, values)
-
-            self.db_connect.commit()
-            print(f"Dados inseridos com sucesso na tabela {chosenTable}!")
-
-        except Exception as e:
-            self.db_connect.rollback()
-            print(f"Erro ao inserir dados: {e}")
-
-        finally:
-            cursor.close()
-            self.db_connect.close()
-            return
-
-
-
     def criacao_tabelas(self):
         cursor = self.db_connect.cursor()
 
