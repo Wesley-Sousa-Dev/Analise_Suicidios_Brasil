@@ -13,5 +13,3 @@ class Arquivo:
         with open(caminho, "r") as file:
             return caminho.lower().endswith('.csv')
         
-    def arquivo_modelagem(self):
-        return self.dataframe

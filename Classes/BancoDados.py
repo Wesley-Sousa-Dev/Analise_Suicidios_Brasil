@@ -116,7 +116,7 @@ class BancoDados:
                                 );
                                  """
 
-        tableList = [tablePeriodo, tableGenero, tableRegiao, tableRel_GeneroPeriodo, tableRel_RegiaoPeriodo]
+        tableList = [tablePeriodo, tableGenero, tableRegiao, tableArmaFogo, tableRel_GeneroPeriodo, tableRel_RegiaoPeriodo]
 
         for table in tableList:
             cursor.execute(table)
@@ -165,6 +165,28 @@ class BancoDados:
             self.db_connect.rollback()
             return f"Erro ao inserir os dados: {e}"
 
+    def inserir_gen(self, homemDf, colunaPer):
+        try:
+            homemDf.rename(columns={'período':'ano', 'valor':'quantidade'}, inplace=True)
+            homemDf.merge(colunaPer, on='ano', how='left')
+
+
+            dados = homemDf[['per_cod', 'gen_cod','quantidade']].to_records(index=False).tolist()
+            
+            query = """
+            INSERT INTO gen_periodo (per_cod, gen_cod, quantidade)
+            VALUES (%s, %s);
+            """
+
+            with self.db_connect.cursor() as cursor:
+                cursor.executemany(query, dados)
+
+            self.db_connect.commit()
+            return "Dados inseridos com sucesso!"
+        
+        except Exception as e:
+            self.db_connect.rollback()
+            return f"Erro ao inserir os dados: {e}"
 
     def buscar_dados(self, chosentable):
         try:
@@ -174,9 +196,9 @@ class BancoDados:
                 case 'periodo':
                     query = "SELECT * FROM periodo ORDER BY ano;"
                 case 'genero':
-                    return
+                    query = "SELECT * FROM genero;"
                 case 'regiao':
-                    return
+                    query = "SELECT * FROM regiao;"
                 case 'arma_fogo':
                     return 'Num foi criado ainda kkkkk'
                 case 'gen_periodo':
@@ -190,7 +212,7 @@ class BancoDados:
             with self.db_connect.cursor() as cursor:
                 cursor.execute(query)
                 resultados = cursor.fetchall()
-                colunas = [desc[0] for desc in cursor.description] 
+                colunas = [desc[0] for desc in cursor.description]
         
             dataframe = pd.DataFrame(resultados, columns=colunas)
             return dataframe 
