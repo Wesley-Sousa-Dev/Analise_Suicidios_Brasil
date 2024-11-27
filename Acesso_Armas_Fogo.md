@@ -24,5 +24,7 @@ https://infograficos.gazetadopovo.com.br/economia/pib-do-brasil/
 ## Período com menores valores observados
 ### Características do período observado:
 Período (2010 - 2020)
-
-
+Período pós Lei Nº 10.826;
+Rigorosidade para obtenção de armas de fogo aumenta;
+Campanhas de desarmamento voluntario;
+Campanhas de combate ao suicídio aumentam;
