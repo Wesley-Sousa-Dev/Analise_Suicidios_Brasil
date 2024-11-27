@@ -57,7 +57,6 @@ class AnaliseGenero(Grafico):
         erro_homens = np.std(homens['Quantidade'] - modelo_homens.predict(X_poly_homens))
         mse_homens = mean_squared_error(homens['Quantidade'], modelo_homens.predict(X_poly_homens))
         print("Modelo Polinomial - Homens")
-        print(f"Erro Quadrático Médio (MSE): {mse_homens}")
         print(f"Previsão de suicídios (homens) 2023-2030: {previsao_homens}")
         print(f"Desvio padrão - Homens: {erro_homens}\n")
 
@@ -71,7 +70,6 @@ class AnaliseGenero(Grafico):
         erro_mulheres = np.std(mulheres['Quantidade'] - modelo_mulheres.predict(X_poly_mulheres))
         mse_mulheres = mean_squared_error(mulheres['Quantidade'], modelo_mulheres.predict(X_poly_mulheres))
         print("Modelo Polinomial - Mulheres")
-        print(f"Erro Quadrático Médio (MSE): {mse_mulheres}")
         print(f"Previsão de suicídios (mulheres) 2023-2030: {previsao_mulheres}")
         print(f"Desvio padrão - Mulheres: {erro_mulheres}")
 
