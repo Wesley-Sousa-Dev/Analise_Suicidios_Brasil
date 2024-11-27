@@ -18,7 +18,7 @@ class BancoDQL(BancoDados):
                 case 'regiao':
                     query = "SELECT * FROM regiao;"
                 case 'arma_fogo':
-                    query = "SELECT * FROM arma_fogo af INNER JOIN periodo p ON p.per_cod = af.per_cod;"
+                    query = "SELECT af.arm_cod, af.per_cod, af.quantidade_total, p.ano FROM arma_fogo af INNER JOIN periodo p ON p.per_cod = af.per_cod;"
                 case 'gen_periodo':
                     query = "SELECT gp.gen_cod, gp.per_cod, gp.quantidade, g.tipo, g.descricao, p.ano, p.quantidade_total FROM gen_periodo gp INNER JOIN genero g ON g.gen_cod = gp.gen_cod INNER JOIN periodo p ON p.per_cod = gp.per_cod ORDER BY gp.per_cod, gp.gen_cod;"
                 case 'reg_periodo':
