@@ -17,23 +17,9 @@ class AnaliseRegiao(Grafico):
         #'Período', 'Quantidade', 'Descrição
         df = self.dataframe
         df = df[(df['Período'] >= 2013) & (df['Período'] <= 2022)]
-        #dados = []
-
-
-
-        # Criar dados aleatórios para cada ano e região
-        #for ano in anos['Período'].unique():
-         #   for regiao in df['Descrição'].unique():
-          #      valor = np.random.randint(1000, 5000)  # Valor aleatório entre 1000 e 5000
-           #     dados.append({'Descrição': regiao, 'Período': ano, 'Quantidade': valor})
-
-        #df = pd.DataFrame(dados)
-
-        # Encontrar o maior e menor valor para cada região com seu respectivo ano
         resultados = []
 
         for regiao in df['Descrição'].unique():
-            # Filtrar os dados da região
             dados_regiao = df[df['Descrição'] == regiao]
 
             # Maior valor
@@ -47,7 +33,6 @@ class AnaliseRegiao(Grafico):
             resultados.append({'Descrição': regiao, 'Ano_Maior': ano_max, 'Maior_Valor': max_valor, 
                             'Ano_Menor': ano_min, 'Menor_Valor': min_valor})
 
-        # Transformar os resultados em um DataFrame
         df_resultados = pd.DataFrame(resultados)
 
         print("Resultados (Maior e Menor Valor por Região):")

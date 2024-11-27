@@ -39,12 +39,11 @@ class AnaliseGenero(Grafico):
         homens = df[df['gen_cod'] == 2]
         mulheres = df[df['gen_cod'] == 1]
 
-        # Garantir que existem dados para cada gênero
         if len(homens) == 0 or len(mulheres) == 0:
             print("Erro: Não há dados suficientes para homens ou mulheres.")
             return
 
-        # Criando DataFrame para anos futuros
+        # Dataframe Anos futuros
         anos_futuros = pd.DataFrame(np.arange(2023, 2031), columns=['ano'])
 
         # Regressão polinomial para homens
@@ -75,7 +74,6 @@ class AnaliseGenero(Grafico):
         print(f"Previsão de suicídios (mulheres) 2023-2030: {previsao_mulheres}")
         print(f"Desvio padrão - Mulheres: {erro_mulheres}")
 
-        # Visualização com Plotly
         fig = go.Figure()
 
         # Homens
