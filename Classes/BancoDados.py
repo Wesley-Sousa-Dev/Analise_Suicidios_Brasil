@@ -1,5 +1,4 @@
 import psycopg2 as psy
-import pandas as pd
 
 class BancoDados:
     def __init__(self, dbname, user, password, host, port):

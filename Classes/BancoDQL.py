@@ -1,4 +1,3 @@
-import psycopg2 as psy
 import pandas as pd
 from Classes.BancoDados import BancoDados
 
