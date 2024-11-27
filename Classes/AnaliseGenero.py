@@ -34,7 +34,7 @@ class AnaliseGenero(Grafico):
         df = self.dataframe
 
         # Transformação do 'per_cod' para o ano real (1989-2022)
-        df['ano'] = df['per_cod'] + 1988
+        df['Período'] = df['per_cod'] + 1988
 
         # Separando os dados para Homens (gen_cod == 2) e Mulheres (gen_cod == 1)
         homens = df[df['gen_cod'] == 2]
@@ -45,17 +45,17 @@ class AnaliseGenero(Grafico):
             return
 
         # Dataframe Anos futuros
-        anos_futuros = pd.DataFrame(np.arange(2023, 2031), columns=['ano'])
+        anos_futuros = pd.DataFrame(np.arange(2023, 2031), columns=['Período'])
 
         # Regressão polinomial para homens
         poly_homens = PolynomialFeatures(degree=grau_homens)
-        X_poly_homens = poly_homens.fit_transform(homens[['ano']])
+        X_poly_homens = poly_homens.fit_transform(homens[['Período']])
         modelo_homens = LinearRegression()
-        modelo_homens.fit(X_poly_homens, homens['quantidade'])
+        modelo_homens.fit(X_poly_homens, homens['Quantidade'])
         X_poly_futuros_homens = poly_homens.transform(anos_futuros)
         previsao_homens = modelo_homens.predict(X_poly_futuros_homens)
-        erro_homens = np.std(homens['quantidade'] - modelo_homens.predict(X_poly_homens))
-        mse_homens = mean_squared_error(homens['quantidade'], modelo_homens.predict(X_poly_homens))
+        erro_homens = np.std(homens['Quantidade'] - modelo_homens.predict(X_poly_homens))
+        mse_homens = mean_squared_error(homens['Quantidade'], modelo_homens.predict(X_poly_homens))
         print("Modelo Polinomial - Homens")
         print(f"Erro Quadrático Médio (MSE): {mse_homens}")
         print(f"Previsão de suicídios (homens) 2023-2030: {previsao_homens}")
@@ -63,13 +63,13 @@ class AnaliseGenero(Grafico):
 
         # Regressão polinomial para mulheres
         poly_mulheres = PolynomialFeatures(degree=grau_mulheres)
-        X_poly_mulheres = poly_mulheres.fit_transform(mulheres[['ano']])
+        X_poly_mulheres = poly_mulheres.fit_transform(mulheres[['Período']])
         modelo_mulheres = LinearRegression()
-        modelo_mulheres.fit(X_poly_mulheres, mulheres['quantidade'])
+        modelo_mulheres.fit(X_poly_mulheres, mulheres['Quantidade'])
         X_poly_futuros_mulheres = poly_mulheres.transform(anos_futuros)
         previsao_mulheres = modelo_mulheres.predict(X_poly_futuros_mulheres)
-        erro_mulheres = np.std(mulheres['quantidade'] - modelo_mulheres.predict(X_poly_mulheres))
-        mse_mulheres = mean_squared_error(mulheres['quantidade'], modelo_mulheres.predict(X_poly_mulheres))
+        erro_mulheres = np.std(mulheres['Quantidade'] - modelo_mulheres.predict(X_poly_mulheres))
+        mse_mulheres = mean_squared_error(mulheres['Quantidade'], modelo_mulheres.predict(X_poly_mulheres))
         print("Modelo Polinomial - Mulheres")
         print(f"Erro Quadrático Médio (MSE): {mse_mulheres}")
         print(f"Previsão de suicídios (mulheres) 2023-2030: {previsao_mulheres}")
@@ -78,29 +78,29 @@ class AnaliseGenero(Grafico):
         fig = go.Figure()
 
         # Homens
-        fig.add_trace(go.Scatter(x=homens['ano'], y=homens['quantidade'],
+        fig.add_trace(go.Scatter(x=homens['Período'], y=homens['Quantidade'],
                                 mode='lines+markers', name="Homens (histórico)", line=dict(color='blue')))
-        fig.add_trace(go.Scatter(x=anos_futuros['ano'], y=previsao_homens,
+        fig.add_trace(go.Scatter(x=anos_futuros['Período'], y=previsao_homens,
                                 mode='lines+markers', name="Homens (previsão)", line=dict(dash='dash', color='blue')))
-        fig.add_trace(go.Scatter(x=anos_futuros['ano'], y=previsao_homens + erro_homens,
+        fig.add_trace(go.Scatter(x=anos_futuros['Período'], y=previsao_homens + erro_homens,
                                 mode='lines', line=dict(color='blue', dash='dot'), showlegend=False))
-        fig.add_trace(go.Scatter(x=anos_futuros['ano'], y=previsao_homens - erro_homens,
+        fig.add_trace(go.Scatter(x=anos_futuros['Período'], y=previsao_homens - erro_homens,
                                 mode='lines', line=dict(color='blue', dash='dot'), showlegend=False))
 
         # Mulheres
-        fig.add_trace(go.Scatter(x=mulheres['ano'], y=mulheres['quantidade'],
+        fig.add_trace(go.Scatter(x=mulheres['Período'], y=mulheres['Quantidade'],
                                 mode='lines+markers', name="Mulheres (histórico)", line=dict(color='red')))
-        fig.add_trace(go.Scatter(x=anos_futuros['ano'], y=previsao_mulheres,
+        fig.add_trace(go.Scatter(x=anos_futuros['Período'], y=previsao_mulheres,
                                 mode='lines+markers', name="Mulheres (previsão)", line=dict(dash='dash', color='red')))
-        fig.add_trace(go.Scatter(x=anos_futuros['ano'], y=previsao_mulheres + erro_mulheres,
+        fig.add_trace(go.Scatter(x=anos_futuros['Período'], y=previsao_mulheres + erro_mulheres,
                                 mode='lines', line=dict(color='red', dash='dot'), showlegend=False))
-        fig.add_trace(go.Scatter(x=anos_futuros['ano'], y=previsao_mulheres - erro_mulheres,
+        fig.add_trace(go.Scatter(x=anos_futuros['Período'], y=previsao_mulheres - erro_mulheres,
                                 mode='lines', line=dict(color='red', dash='dot'), showlegend=False))
 
         # Configurações do gráfico
         fig.update_layout(
             title="Previsão de Suicídios (1989-2030) - Regressão Polinomial",
-            xaxis_title="Ano",
+            xaxis_title="Período",
             yaxis_title="Quantidade de Suicídios",
             template="plotly",
             legend_title="Gênero",
