@@ -3,6 +3,8 @@ Classes/__pycache__/BancoDados.cpython-312.pyc
 Classes/__pycache__/InsercaoDados.cpython-312.pyc
 Classes/__pycache__/AnaliseGenero.cpython-312.pyc
 Classes/__pycache__/BancoDDL.cpython-312.pyc
-Classes/__pycache__/BancoDML.cpython-312.pyc
 Classes/__pycache__/BancoDQL.cpython-312.pyc
 Classes/__pycache__/Grafico.cpython-312.pyc
+Classes/__pycache__/BancoDML.cpython-312.pyc
+Classes/__pycache__/AnaliseRegiao.cpython-312.pyc
+Classes/__pycache__/AnaliseArmaFogo.cpython-312.pyc
