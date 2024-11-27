@@ -2,7 +2,6 @@ from Classes.Grafico import Grafico
 import plotly.express as px
 from sklearn.preprocessing import PolynomialFeatures #py -3.12 -m pip install scikit-learn
 from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error
 import numpy as np
 import plotly.graph_objects as go
 import pandas as pd
@@ -31,7 +30,7 @@ class AnaliseGenero(Grafico):
 
     #Modelo de regressão polinomial para prever suicídios por gênero em anos futuros             
     def modelo_regre_poli(self, grau_homens=2, grau_mulheres=2):
-        # O dataframe tem as colunas: 'per_cod' (ano serial), 'gen_cod' (gênero), 'quantidade' (suicídios)
+        # O DataFrame tem as colunas: 'per_cod' (ano serial), 'gen_cod' (gênero), 'quantidade' (suicídios)
         df = self.dataframe
 
         # Transformação do 'per_cod' para o ano real (1989-2022)
@@ -45,7 +44,7 @@ class AnaliseGenero(Grafico):
             print("Erro: Não há dados suficientes para homens ou mulheres.")
             return
 
-        # Dataframe Anos futuros
+        # DataFrame para os anos futuros
         anos_futuros = pd.DataFrame(np.arange(2023, 2031), columns=['Período'])
 
         # Regressão polinomial para homens
@@ -56,7 +55,6 @@ class AnaliseGenero(Grafico):
         X_poly_futuros_homens = poly_homens.transform(anos_futuros)
         previsao_homens = modelo_homens.predict(X_poly_futuros_homens)
         erro_homens = np.std(homens['Quantidade'] - modelo_homens.predict(X_poly_homens))
-        mse_homens = mean_squared_error(homens['Quantidade'], modelo_homens.predict(X_poly_homens))
         print("Modelo Polinomial - Homens")
         print(f"Previsão de suicídios (homens) 2023-2030: {previsao_homens}")
         print(f"Desvio padrão - Homens: {erro_homens}\n")
@@ -69,7 +67,6 @@ class AnaliseGenero(Grafico):
         X_poly_futuros_mulheres = poly_mulheres.transform(anos_futuros)
         previsao_mulheres = modelo_mulheres.predict(X_poly_futuros_mulheres)
         erro_mulheres = np.std(mulheres['Quantidade'] - modelo_mulheres.predict(X_poly_mulheres))
-        mse_mulheres = mean_squared_error(mulheres['Quantidade'], modelo_mulheres.predict(X_poly_mulheres))
         print("Modelo Polinomial - Mulheres")
         print(f"Previsão de suicídios (mulheres) 2023-2030: {previsao_mulheres}")
         print(f"Desvio padrão - Mulheres: {erro_mulheres}")

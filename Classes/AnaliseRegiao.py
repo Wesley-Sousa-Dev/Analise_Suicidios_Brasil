@@ -14,7 +14,7 @@ class AnaliseRegiao(Grafico):
     
     #Verificar qual o ano com a maior e o ano com a menor quantidade de suicídios de cada região nos últimos 10 anos
     def anos_max_min(self):
-        #O que o dataframe terá:
+        #O que o DataFrame terá:
         #'Período', 'Quantidade', 'Descrição
         df = self.dataframe
         df = df[(df['Período'] >= 2013) & (df['Período'] <= 2022)]
