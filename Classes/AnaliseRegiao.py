@@ -16,7 +16,7 @@ class AnaliseRegiao(Grafico):
         #O que o dataframe terá:
         #'Período', 'Quantidade', 'Descrição
         df = self.dataframe
-        anos = df[(df['Período'] >= 2013) & (df['Período'] <= 2022)]
+        df = df[(df['Período'] >= 2013) & (df['Período'] <= 2022)]
         #dados = []
 
 
