@@ -18,11 +18,11 @@ class BancoDQL(BancoDados):
                 case 'regiao':
                     query = "SELECT * FROM regiao;"
                 case 'arma_fogo':
-                    query = "SELECT * FROM arma_fogo;"
+                    query = "SELECT * FROM arma_fogo af INNER JOIN periodo p ON p.per_cod = af.per_cod;"
                 case 'gen_periodo':
-                    query = "SELECT * FROM gen_periodo ORDER BY per_cod;"
+                    query = "SELECT gp.gen_cod, gp.per_cod, gp.quantidade, g.tipo, g.descricao, p.ano, p.quantidade_total FROM gen_periodo gp INNER JOIN genero g ON g.gen_cod = gp.gen_cod INNER JOIN periodo p ON p.per_cod = gp.per_cod ORDER BY gp.per_cod, gp.gen_cod;"
                 case 'reg_periodo':
-                    query = "SELECT * FROM reg_periodo ORDER BY per_cod;"
+                    query = "SELECT * FROM reg_periodo rp INNER JOIN regiao r ON r.reg_cod = rp.reg_cod INNER JOIN periodo p ON p.per_cod = rp.per_cod ORDER BY rp.per_cod;"
                 case _:
                     return "Table escolhida não existe."
 

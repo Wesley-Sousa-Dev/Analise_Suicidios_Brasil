@@ -1,6 +1,6 @@
 import psycopg2 as psy
 import pandas as pd
-from BancoDados import BancoDados
+from Classes.BancoDados import BancoDados
 
 class BancoDDL(BancoDados):
     def __init__(self, dbname, user, password, host, port):
