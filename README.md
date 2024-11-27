@@ -1,19 +1,13 @@
-# Analise_Suicidios_Brasil
-Projeto de aplicação de técnicas de Ciências de Dados.
-
-Partes do trabalho:
---GERAL--
+# Analise dos casos de suicidios no Brasil
+## Projeto de aplicação de técnicas de Ciências de Dados.
 - Python3
 - Versionamento (Git/GitHub)
-- Orientação a Objetos (script não pode ser só de cima pra baixo)
-
---ESPECIFICAS--
-- Manipulação de Arquivos (Caso utilizar no trabalho manipulação de arquivos no trabalho)
-    -CSV
+- Manipulação de Arquivos
+  - CSV
+- Orientação a Objetos
+- Manipulação de banco de dados
+- Análise e visualização de dados
 - Técnicas de Manipulação de dados
-    -Inspeção
-    -Limpeza
-    -Transformação
-    -Modelagem
-- Manipulação de banco de dados (gráficos e explicação do motivo por ser ele)
-- Análise e visualização de dados (dos dados armazenados)
+  - Inspeção
+  - Modelagem
+## Diagrama Entidade Relacionamento do Banco de Dados
