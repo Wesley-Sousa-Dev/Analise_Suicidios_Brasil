@@ -12,6 +12,7 @@ class AnaliseRegiao(Grafico):
                        title = 'Quantidade de suicídios por região em cada período', markers = True, 
                        color_discrete_sequence = px.colors.qualitative.G10).show()
     
+    #Verificar qual o ano com a maior e o ano com a menor quantidade de suicídios de cada região nos últimos 10 anos
     def anos_max_min(self):
         #O que o dataframe terá:
         #'Período', 'Quantidade', 'Descrição
@@ -35,5 +36,5 @@ class AnaliseRegiao(Grafico):
 
         df_resultados = pd.DataFrame(resultados)
 
-        print("Resultados (Maior e Menor Valor por Região):")
+        print("Resultados (Ano_Maior e Ano_Menor por Região nos últimos 10 anos):")
         print(df_resultados)

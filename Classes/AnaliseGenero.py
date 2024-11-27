@@ -28,7 +28,8 @@ class AnaliseGenero(Grafico):
             case _:
                 print(f"Parâmetro escolhaGrafico inválido, escolha entre 'histogram' e 'pie'!")
                 return
-                
+
+    #Modelo de regressão polinomial para prever suicídios por gênero em anos futuros             
     def modelo_regre_poli(self, grau_homens=2, grau_mulheres=2):
         # O dataframe tem as colunas: 'per_cod' (ano serial), 'gen_cod' (gênero), 'quantidade' (suicídios)
         df = self.dataframe
