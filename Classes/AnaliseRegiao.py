@@ -8,7 +8,9 @@ class AnaliseRegiao(Grafico):
         super().__init__(dataframe, firstValue, secondValue, colorValue)
 
     def criar_grafico(self):
-        return px.line(self.dataframe, x = self.firstValue, y = self.secondValue, color = self.colorValue, title = 'Suicídios em cada região por período', markers = True, color_discrete_sequence = px.colors.qualitative.G10)
+        return px.line(self.dataframe, x = self.firstValue, y = self.secondValue, color = self.colorValue, 
+                       title = 'Suicídios em cada região por período', markers = True, 
+                       color_discrete_sequence = px.colors.qualitative.G10).show()
     
     def anos_max_min(self):
         #O que o dataframe terá:
