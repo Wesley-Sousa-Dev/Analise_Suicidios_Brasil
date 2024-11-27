@@ -16,7 +16,8 @@ class AnaliseGenero(Grafico):
         match self.escolhaGrafico:
             case "histogram":
                 return px.histogram(self.dataframe, x=self.firstValue, y=self.secondValue, color=self.colorValue, 
-                                    barmode='group', title='Suicídios de gênero por período', height=400, nbins=17, 
+                                    barmode='group', title='Quantidade de suicídios por gênero em cada período', 
+                                    height=400, nbins=17, 
                                     color_discrete_sequence=px.colors.sequential.Rainbow).update_layout(yaxis_title="Quantidade").show()
                 
             case "pie":
