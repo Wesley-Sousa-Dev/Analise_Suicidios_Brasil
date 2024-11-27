@@ -1,5 +1,5 @@
-# Analise dos casos de suicidios no Brasil
-## Projeto de aplicação de técnicas de Ciências de Dados.
+# Análise dos casos de suicídios no Brasil
+## Projeto de aplicação de técnicas de Ciências de Dados
 - Python3
 - Versionamento (Git/GitHub)
 - Manipulação de Arquivos
