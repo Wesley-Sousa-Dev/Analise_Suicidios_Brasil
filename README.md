@@ -10,4 +10,3 @@
 - Técnicas de Manipulação de dados
   - Inspeção
   - Modelagem
-## Diagrama Entidade Relacionamento do Banco de Dados
