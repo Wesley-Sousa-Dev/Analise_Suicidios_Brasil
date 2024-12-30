@@ -32,8 +32,11 @@ class AnaliseGenero(Grafico):
     def modelo_regre_poli(self, grau_homens=2, grau_mulheres=2):
         # O DataFrame tem as colunas: 'per_cod' (ano serial), 'gen_cod' (gênero), 'quantidade' (suicídios)
         df = self.dataframe
+        df = df[(df['Período'] >= 2001) & (df['Período'] <= 2022)]
+
 
         # Transformação do 'per_cod' para o ano real (1989-2022)
+        df = df.copy()
         df['Período'] = df['per_cod'] + 1988
 
         # Separando os dados para Homens (gen_cod == 2) e Mulheres (gen_cod == 1)
@@ -54,10 +57,13 @@ class AnaliseGenero(Grafico):
         modelo_homens.fit(X_poly_homens, homens['Quantidade'])
         X_poly_futuros_homens = poly_homens.transform(anos_futuros)
         previsao_homens = modelo_homens.predict(X_poly_futuros_homens)
+        media_homens = homens['Quantidade'].mean()
         erro_homens = np.std(homens['Quantidade'] - modelo_homens.predict(X_poly_homens))
+        erro_homens_percentual = (erro_homens / media_homens) * 100
         print("Modelo Polinomial - Homens")
-        print(f"Previsão de suicídios (homens) 2023-2030: {previsao_homens}")
-        print(f"Desvio padrão - Homens: {erro_homens:.2f}\n")
+        print(f"Previsão de suicídios (2023-2030): {previsao_homens}")
+        print(f"Desvio padrão: {erro_homens:.2f}")
+        print(f"Desvio padrão em porcentagem: {erro_homens_percentual:.2f}%\n")
 
         # Regressão polinomial para mulheres
         poly_mulheres = PolynomialFeatures(degree=grau_mulheres)
@@ -66,10 +72,13 @@ class AnaliseGenero(Grafico):
         modelo_mulheres.fit(X_poly_mulheres, mulheres['Quantidade'])
         X_poly_futuros_mulheres = poly_mulheres.transform(anos_futuros)
         previsao_mulheres = modelo_mulheres.predict(X_poly_futuros_mulheres)
+        media_mulheres = mulheres['Quantidade'].mean()
         erro_mulheres = np.std(mulheres['Quantidade'] - modelo_mulheres.predict(X_poly_mulheres))
+        erro_mulheres_percentual = (erro_mulheres / media_mulheres) * 100
         print("Modelo Polinomial - Mulheres")
-        print(f"Previsão de suicídios (mulheres) 2023-2030: {previsao_mulheres}")
-        print(f"Desvio padrão - Mulheres: {erro_mulheres:.2f}")
+        print(f"Previsão de suicídios (2023-2030): {previsao_mulheres}")
+        print(f"Desvio padrão: {erro_mulheres:.2f}")
+        print(f"Desvio padrão em porcentagem: {erro_mulheres_percentual:.2f}%")
 
         fig = go.Figure()
 
@@ -95,7 +104,7 @@ class AnaliseGenero(Grafico):
 
         # Configurações do gráfico
         fig.update_layout(
-            title="Previsão de Suicídios (1989-2030) - Regressão Polinomial",
+            title="Previsão de Suicídios (2001-2030) - Regressão Polinomial",
             xaxis_title="Período",
             yaxis_title="Quantidade de Suicídios",
             template="plotly",
