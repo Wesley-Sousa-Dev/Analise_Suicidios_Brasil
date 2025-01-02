@@ -32,7 +32,7 @@ class AnaliseGenero(Grafico):
     def modelo_regre_poli(self, grau_homens=2, grau_mulheres=2):
         # O DataFrame tem as colunas: 'per_cod' (ano serial), 'gen_cod' (gênero), 'quantidade' (suicídios)
         df = self.dataframe
-        df = df[(df['Período'] >= 2001) & (df['Período'] <= 2022)]
+        df = df[(df['Período'] >= 2000) & (df['Período'] <= 2022)]
 
 
         # Transformação do 'per_cod' para o ano real (1989-2022)
@@ -104,7 +104,7 @@ class AnaliseGenero(Grafico):
 
         # Configurações do gráfico
         fig.update_layout(
-            title="Previsão de Suicídios (2001-2030) - Regressão Polinomial",
+            title="Previsão de Suicídios (2023-2030) - Regressão Polinomial",
             xaxis_title="Período",
             yaxis_title="Quantidade de Suicídios",
             template="plotly",
