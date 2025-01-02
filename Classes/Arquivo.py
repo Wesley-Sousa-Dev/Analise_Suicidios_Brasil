@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 class Arquivo:
     def __init__(self, caminho):
         self.eUmCSV = self.arquivo_valido(caminho)

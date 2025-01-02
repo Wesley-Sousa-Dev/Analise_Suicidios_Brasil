@@ -30,16 +30,16 @@ class AnaliseGenero(Grafico):
 
     #Modelo de regressão polinomial para prever suicídios por gênero em anos futuros             
     def modelo_regre_poli(self, grau_homens=2, grau_mulheres=2):
-        # O DataFrame tem as colunas: 'per_cod' (ano serial), 'gen_cod' (gênero), 'quantidade' (suicídios)
+        #O DataFrame tem as colunas: 'per_cod' (ano serial), 'gen_cod' (gênero), 'quantidade' (suicídios)
         df = self.dataframe
         df = df[(df['Período'] >= 2000) & (df['Período'] <= 2022)]
 
 
-        # Transformação do 'per_cod' para o ano real (1989-2022)
+        #Transformação do 'per_cod' para o ano real (2000-2022)
         df = df.copy()
         df['Período'] = df['per_cod'] + 1988
 
-        # Separando os dados para Homens (gen_cod == 2) e Mulheres (gen_cod == 1)
+        #Separando os dados para Homens (gen_cod == 2) e Mulheres (gen_cod == 1)
         homens = df[df['gen_cod'] == 2]
         mulheres = df[df['gen_cod'] == 1]
 
@@ -47,10 +47,10 @@ class AnaliseGenero(Grafico):
             print("Erro: Não há dados suficientes para homens ou mulheres.")
             return
 
-        # DataFrame para os anos futuros
+        #DataFrame para os anos futuros
         anos_futuros = pd.DataFrame(np.arange(2023, 2031), columns=['Período'])
 
-        # Regressão polinomial para homens
+        #Regressão polinomial para homens
         poly_homens = PolynomialFeatures(degree=grau_homens)
         X_poly_homens = poly_homens.fit_transform(homens[['Período']])
         modelo_homens = LinearRegression()
@@ -65,7 +65,7 @@ class AnaliseGenero(Grafico):
         print(f"Desvio padrão: {erro_homens:.2f}")
         print(f"Desvio padrão em porcentagem: {erro_homens_percentual:.2f}%\n")
 
-        # Regressão polinomial para mulheres
+        #Regressão polinomial para mulheres
         poly_mulheres = PolynomialFeatures(degree=grau_mulheres)
         X_poly_mulheres = poly_mulheres.fit_transform(mulheres[['Período']])
         modelo_mulheres = LinearRegression()
@@ -80,9 +80,10 @@ class AnaliseGenero(Grafico):
         print(f"Desvio padrão: {erro_mulheres:.2f}")
         print(f"Desvio padrão em porcentagem: {erro_mulheres_percentual:.2f}%")
 
+        #Gráfico com plotly
         fig = go.Figure()
 
-        # Homens
+        #Parte gráfica dos homens
         fig.add_trace(go.Scatter(x=homens['Período'], y=homens['Quantidade'],
                                 mode='lines+markers', name="Homens (histórico)", line=dict(color='blue')))
         fig.add_trace(go.Scatter(x=anos_futuros['Período'], y=previsao_homens,
@@ -92,7 +93,7 @@ class AnaliseGenero(Grafico):
         fig.add_trace(go.Scatter(x=anos_futuros['Período'], y=previsao_homens - erro_homens,
                                 mode='lines', line=dict(color='blue', dash='dot'), showlegend=False))
 
-        # Mulheres
+        #Parte gráfico das mulheres
         fig.add_trace(go.Scatter(x=mulheres['Período'], y=mulheres['Quantidade'],
                                 mode='lines+markers', name="Mulheres (histórico)", line=dict(color='red')))
         fig.add_trace(go.Scatter(x=anos_futuros['Período'], y=previsao_mulheres,
@@ -102,7 +103,7 @@ class AnaliseGenero(Grafico):
         fig.add_trace(go.Scatter(x=anos_futuros['Período'], y=previsao_mulheres - erro_mulheres,
                                 mode='lines', line=dict(color='red', dash='dot'), showlegend=False))
 
-        # Configurações do gráfico
+        #Configurações do gráfico
         fig.update_layout(
             title="Previsão de Suicídios (2023-2030) - Regressão Polinomial",
             xaxis_title="Período",
